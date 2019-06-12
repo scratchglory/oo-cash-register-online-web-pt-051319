@@ -26,19 +26,37 @@ require 'pry'
 class CashRegister
   attr_accessor :total, :discount, :previous_total
   
-  def initialize(total = 0)
-    @total = total
-    @discount = 20
+  def initialize(discount = 0)
+    @total = 0
+    @discount = discount
     @basket = []
+    @last_transaction = 0
   end
   
   def add_item(title, price, item = 1)
-    total_price = self.total += (price*item)
+    self.total += (price*item)
+    @last_transaction = price * item
+    item.times { @basket << title }
   end
   
-  def apply_discount
-  binding.pry
-    
+  def apply_discount    # expected 800, got: 1000 = total
+    if discount > 0
+      discount_percentage = (100.00 - discount) * 0.01
+      new_total = total * discount_percentage
+      self.total = new_total.to_i
+      "After the discount, the total comes to $#{self.total}."
+    else
+      "There is no discount to apply."            #can't use #puts or it will return nil
+    end
+  end
+  
+  def items
+    @basket
+  end
+  
+  def void_last_transaction
+    # binding.pry
+    self.total -= @last_transaction
   end
   
   
