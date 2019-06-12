@@ -34,9 +34,9 @@ class CashRegister
   end
   
   def add_item(title, price, item = 1)
-    self.total += (price*item)
-    @last_transaction = price * item
-    item.times { @basket << title }
+    self.total += (price*item)          # accepts a a title and a rice and increase 
+    @last_transaction = price * item    # accepts an optional quantity
+    item.times { @basket << title }     # doesn't forget about previous total
   end
   
   def apply_discount    # expected 800, got: 1000 = total
